@@ -71,6 +71,8 @@ class LevelEventPacket extends DataPacket{
 	const EVENT_START_THUNDER = 3002;
 	const EVENT_STOP_RAIN = 3003;
 	const EVENT_STOP_THUNDER = 3004;
+	
+	const EVENT_SOUND_BUTTON_CLICK = 3500;
 
 	const EVENT_SOUND_EXPLODE = 3501;
 	/* 3502-3509 are splash SOUNDS with particles. Probably for cauldrons. */
