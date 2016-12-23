@@ -37,13 +37,11 @@ use pocketmine\command\defaults\HelpCommand;
 use pocketmine\command\defaults\KickCommand;
 use pocketmine\command\defaults\KillCommand;
 use pocketmine\command\defaults\ListCommand;
-use pocketmine\command\defaults\MeCommand;
 use pocketmine\command\defaults\OpCommand;
 use pocketmine\command\defaults\PardonCommand;
 use pocketmine\command\defaults\PardonIpCommand;
 use pocketmine\command\defaults\ParticleCommand;
 use pocketmine\command\defaults\PluginsCommand;
-use pocketmine\command\defaults\ReloadCommand;
 use pocketmine\command\defaults\SaveCommand;
 use pocketmine\command\defaults\SaveOffCommand;
 use pocketmine\command\defaults\SaveOnCommand;
@@ -54,12 +52,10 @@ use pocketmine\command\defaults\SpawnpointCommand;
 use pocketmine\command\defaults\StatusCommand;
 use pocketmine\command\defaults\StopCommand;
 use pocketmine\command\defaults\TeleportCommand;
-use pocketmine\command\defaults\TellCommand;
 use pocketmine\command\defaults\TimeCommand;
 use pocketmine\command\defaults\TimingsCommand;
 use pocketmine\command\defaults\VanillaCommand;
 use pocketmine\command\defaults\VersionCommand;
-use pocketmine\command\defaults\WeatherCommand;
 use pocketmine\command\defaults\WhitelistCommand;
 use pocketmine\command\defaults\XpCommand;
 use pocketmine\event\TranslationContainer;
@@ -90,7 +86,6 @@ class SimpleCommandMap implements CommandMap{
 		$this->register("pocketmine", new SeedCommand("seed"));
 		$this->register("pocketmine", new HelpCommand("help"));
 		$this->register("pocketmine", new StopCommand("stop"));
-		$this->register("pocketmine", new TellCommand("tell"));
 		$this->register("pocketmine", new DefaultGamemodeCommand("defaultgamemode"));
 		$this->register("pocketmine", new BanCommand("ban"));
 		$this->register("pocketmine", new BanIpCommand("ban-ip"));
@@ -98,7 +93,6 @@ class SimpleCommandMap implements CommandMap{
 		$this->register("pocketmine", new PardonCommand("pardon"));
 		$this->register("pocketmine", new PardonIpCommand("pardon-ip"));
 		$this->register("pocketmine", new SayCommand("say"));
-		$this->register("pocketmine", new MeCommand("me"));
 		$this->register("pocketmine", new ListCommand("list"));
 		$this->register("pocketmine", new DifficultyCommand("difficulty"));
 		$this->register("pocketmine", new KickCommand("kick"));
@@ -120,9 +114,7 @@ class SimpleCommandMap implements CommandMap{
 		$this->register("pocketmine", new TeleportCommand("tp"));
 		$this->register("pocketmine", new TimeCommand("time"));
 		$this->register("pocketmine", new TimingsCommand("timings"));
-		$this->register("pocketmine", new ReloadCommand("reload"));
 		$this->register("pocketmine", new XpCommand("xp"));
-		$this->register("pocketmine", new WeatherCommand("weather"));
 
 		if($this->server->getProperty("debug.commands", false)){
 			$this->register("pocketmine", new StatusCommand("status"));

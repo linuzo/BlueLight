@@ -33,7 +33,7 @@ use pocketmine\block\BrownMushroom;
 use pocketmine\block\Cactus;
 use pocketmine\block\Carrot;
 use pocketmine\block\Farmland;
-use pocketmine\block\Fire;
+//use pocketmine\block\Fire;
 use pocketmine\block\Grass;
 use pocketmine\block\Ice;
 use pocketmine\block\Leaves;
@@ -108,8 +108,6 @@ use pocketmine\tile\Tile;
 use pocketmine\utils\LevelException;
 use pocketmine\utils\Random;
 use pocketmine\utils\ReversePriorityQueue;
-use pocketmine\level\weather\Weather;
-use pocketmine\level\weather\WeatherManager;
 use pocketmine\entity\Lightning;
 use pocketmine\entity\XPOrb;
 
