@@ -147,15 +147,15 @@ class PlayerInventory extends BaseInventory{
 		}
 	}
 
-	public function onSlotChange($index, $before){
+	public function onSlotChange($index, $before, $sendPacket = true){
 		$holder = $this->getHolder();
 		if($holder instanceof Player and !$holder->spawned){
 			return;
 		}
 
-		parent::onSlotChange($index, $before);
+		parent::onSlotChange($index, $before, $sendPacket = true);
 
-		if($index >= $this->getSize()){
+		if($index >= $this->getSize() && $sendPacket === true){
 			$this->sendArmorSlot($index, $this->getViewers());
 			$this->sendArmorSlot($index, $this->getHolder()->getViewers());
 		}
@@ -169,7 +169,7 @@ class PlayerInventory extends BaseInventory{
 		return $this->getItem($this->getSize() + $index);
 	}
 
-	public function setArmorItem($index, Item $item){
+	public function setArmorItem($index, Item $item, $sendPacket = true){
 		return $this->setItem($this->getSize() + $index, $item);
 	}
 
@@ -205,7 +205,7 @@ class PlayerInventory extends BaseInventory{
 		return $this->setItem($this->getSize() + 3, $boots);
 	}
 
-	public function setItem($index, Item $item){
+	public function setItem($index, Item $item, $sendPacket = true){
 		if($index < 0 or $index >= $this->size){
 			return false;
 		}elseif($item->getId() === 0 or $item->getCount() <= 0){
@@ -231,7 +231,7 @@ class PlayerInventory extends BaseInventory{
 
 		$old = $this->getItem($index);
 		$this->slots[$index] = clone $item;
-		$this->onSlotChange($index, $old);
+		$this->onSlotChange($index, $old, $sendPacket);
 
 		return true;
 	}
@@ -326,7 +326,7 @@ class PlayerInventory extends BaseInventory{
 	/**
 	 * @param Item[] $items
 	 */
-	public function setArmorContents(array $items){
+	public function setArmorContents(array $items,  $sendPacket = true){
 		for($i = 0; $i < 4; ++$i){
 			if(!isset($items[$i]) or !($items[$i] instanceof Item)){
 				$items[$i] = Item::get(Item::AIR, null, 0);
@@ -335,7 +335,7 @@ class PlayerInventory extends BaseInventory{
 			if($items[$i]->getId() === Item::AIR){
 				$this->clear($this->getSize() + $i);
 			}else{
-				$this->setItem($this->getSize() + $i, $items[$i]);
+				$this->setItem($this->getSize() + $i, $items[$i], $sendPacket);
 			}
 		}
 	}
