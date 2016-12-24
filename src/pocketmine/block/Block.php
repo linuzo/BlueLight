@@ -119,7 +119,6 @@ class Block extends Position implements BlockIds, Metadatable{
 			self::$list[self::OBSIDIAN] = Obsidian::class;
 			self::$list[self::TORCH] = Torch::class;
 			self::$list[self::FIRE] = Fire::class;
-			self::$list[self::MONSTER_SPAWNER] = MonsterSpawner::class;
 			self::$list[self::WOOD_STAIRS] = WoodStairs::class;
 			self::$list[self::CHEST] = Chest::class;
 

@@ -75,7 +75,6 @@ interface BlockIds{
 	const OBSIDIAN = 49;
 	const TORCH = 50;
 	const FIRE = 51;
-	const MONSTER_SPAWNER = 52;
 	const WOOD_STAIRS = 53, WOODEN_STAIRS = 53, OAK_WOOD_STAIRS = 53, OAK_WOODEN_STAIRS = 53;
 	const CHEST = 54;
 	const REDSTONE_WIRE = 55;
@@ -120,7 +119,6 @@ interface BlockIds{
 	const POWERED_REPEATER_BLOCK = 94;
 	const INVISIBLE_BEDROCK = 95;
 	const TRAPDOOR = 96, WOODEN_TRAPDOOR = 96;
-	const MONSTER_EGG_BLOCK = 97;
 	const STONE_BRICKS = 98, STONE_BRICK = 98;
 	const BROWN_MUSHROOM_BLOCK = 99;
 	const RED_MUSHROOM_BLOCK = 100;
