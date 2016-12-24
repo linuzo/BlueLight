@@ -45,10 +45,7 @@ use pocketmine\entity\Human;
 use pocketmine\entity\Item as DroppedItem;
 use pocketmine\entity\PrimedTNT;
 use pocketmine\entity\Snowball;
-use pocketmine\entity\Squid;
-use pocketmine\entity\Villager;
 use pocketmine\entity\XPOrb;
-use pocketmine\entity\Zombie;
 use pocketmine\entity\Lightning;
 use pocketmine\event\HandlerList;
 use pocketmine\event\level\LevelInitEvent;
@@ -173,8 +170,8 @@ class Server{
 	private $nextTick = 0;
 	private $tickAverage = [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20];
 	private $useAverage = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-	private $maxTick = 20;
-	private $maxUse = 0;
+	private $currentTPS = 20;
+	private $currentUse = 0;
 
 	
 
@@ -632,7 +629,7 @@ class Server{
 	 * @return float
 	 */
 	public function getTicksPerSecond(){
-		return round($this->maxTick, 2);
+		return round($this->currentTPS, 2);
 	}
 
 	/**
@@ -650,7 +647,7 @@ class Server{
 	 * @return float
 	 */
 	public function getTickUsage(){
-		return round($this->maxUse * 100, 2);
+		return round($this->currentUse * 100, 2);
 	}
 
 	/**
@@ -2373,8 +2370,8 @@ class Server{
 
 		if(($this->tickCounter & 0b1111) === 0){
 			$this->titleTick();
-			$this->maxTick = 20;
-			$this->maxUse = 0;
+			$this->currentTPS = 20;
+			$this->currentUse = 0;
 
 			if(($this->tickCounter & 0b111111111) === 0){
 				try{
@@ -2416,23 +2413,15 @@ class Server{
 		Timings::$serverTickTimer->stopTiming();
 
 		$now = microtime(true);
-		$tick = min(20, 1 / max(0.001, $now - $tickTime));
-		$use = min(1, ($now - $tickTime) / 0.05);
+		$this->currentTPS = min(20, 1 / max(0.001, $now - $tickTime));
+		$this->currentUse = min(1, ($now - $tickTime) / 0.05);
 
-		TimingsHandler::tick($tick <= $this->profilingTickRate);
-
-		if($this->maxTick > $tick){
-			$this->maxTick = $tick;
-		}
-
-		if($this->maxUse < $use){
-			$this->maxUse = $use;
-		}
+		TimingsHandler::tick($this->currentTPS <= $this->profilingTickRate);
 
 		array_shift($this->tickAverage);
-		$this->tickAverage[] = $tick;
+		$this->tickAverage[] = $this->currentTPS;
 		array_shift($this->useAverage);
-		$this->useAverage[] = $use;
+		$this->useAverage[] = $this->currentUse;
 
 		if(($this->nextTick - $tickTime) < -1){
 			$this->nextTick = $tickTime;
