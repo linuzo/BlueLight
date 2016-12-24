@@ -85,7 +85,7 @@ abstract class BaseLevelProvider implements LevelProvider{
 	}
 
 	public function setTime($value){
-		$this->levelData->Time = new IntTag("Time", (int) $value);
+		$this->levelData->Time = new LongTag("Time", $value);
 	}
 
 	public function getSeed(){
