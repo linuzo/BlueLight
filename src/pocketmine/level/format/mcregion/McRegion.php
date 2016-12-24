@@ -155,14 +155,24 @@ class McRegion extends BaseLevelProvider{
 			}else{
 				$biomeIds = "";
 			}
+            if(!(isset($chunk->Entities))){
+				$entities = array();
+			}else{
+				$entities = $chunk->Entities->getValue();
+			}
 
+		    if(!(isset($chunk->TileEntities))){
+			     $tile = array();
+			}else{
+			     $tile = $chunk->TileEntities->getValue();
+		}
 			$result = new GenericChunk(
 				$provider,
 				$chunk["xPos"],
 				$chunk["zPos"],
 				$subChunks,
-				$chunk->Entities->getValue(),
-				$chunk->TileEntities->getValue(),
+				$entities,
+				$tile,
 				$biomeIds,
 				$chunk->HeightMap->getValue()
 			);
