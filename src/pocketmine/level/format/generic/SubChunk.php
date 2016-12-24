@@ -18,7 +18,7 @@
  *
  *
 */
-
+declare(strict_types = 1);
 namespace pocketmine\level\format\generic;
 
 class SubChunk{
