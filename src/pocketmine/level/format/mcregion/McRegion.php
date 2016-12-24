@@ -36,7 +36,7 @@ use pocketmine\utils\MainLogger;
 
 class McRegion extends BaseLevelProvider{
 
-	public static function nbtSerialize(GenericChunk $chunk) : string{
+	public function nbtSerialize(GenericChunk $chunk) : string{
 		$nbt = new CompoundTag("Level", []);
 		$nbt->xPos = new IntTag("xPos", $chunk->getX());
 		$nbt->zPos = new IntTag("zPos", $chunk->getZ());
@@ -101,7 +101,7 @@ class McRegion extends BaseLevelProvider{
 		return $writer->writeCompressed(ZLIB_ENCODING_DEFLATE, RegionLoader::$COMPRESSION_LEVEL);
 	}
 
-	public static function nbtDeserialize(string $data, LevelProvider $provider = null){
+	public function nbtDeserialize(string $data){
 		$nbt = new NBT(NBT::BIG_ENDIAN);
 		try{
 			$nbt->readCompressed($data, ZLIB_ENCODING_DEFLATE);
@@ -167,7 +167,7 @@ class McRegion extends BaseLevelProvider{
 			     $tile = $chunk->TileEntities->getValue();
 		}
 			$result = new GenericChunk(
-				$provider,
+				$this,
 				$chunk["xPos"],
 				$chunk["zPos"],
 				$subChunks,
