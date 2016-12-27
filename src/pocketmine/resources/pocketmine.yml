@@ -162,6 +162,5 @@ BlueLight:
  CrashDump: true
  foodEnabled: true
  expEnabled: true
- weatherEnabled: false
  allowSplashPotion: false
  smartlogger: 0 # 0 ... normal # 1 ... smart

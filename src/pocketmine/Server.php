@@ -269,9 +269,6 @@ class Server{
 	/** @var Level */
 	private $levelDefault = null;
 
-	public $weatherEnabled = false;
- 	public $weatherRandomDurationMin = 6000;
- 	public $weatherRandomDurationMax = 12000;
 	public $lightningTime = 200;
 	public $lightningFire = false;
 	public $foodEnabled = false;
@@ -1435,7 +1432,6 @@ class Server{
 			$this->foodEnabled = $this->getProperty("BlueLight.foodEnabled", true);
 			$this->allowSplashPotion = $this->getProperty("BlueLight.allowSplashPotion", true);
 			$this->expEnabled = $this->getProperty("BlueLight.expEnabled", true);
-			$this->weatherEnabled = $this->getProperty("BlueLight.weatherEnabled", true);
 			//$this->logger->setMode($this->getProperty("BlueLight.smartlogger", 0));
 			
 			if($this->crashdump){

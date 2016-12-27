@@ -136,8 +136,6 @@ class Level implements ChunkManager, Metadatable{
 
 	const TIME_FULL = 24000;
 
-	/** @var Weather */
-	//private $weather;
 
 	/** @var Tile[] */
 	private $tiles = [];
@@ -360,11 +358,7 @@ class Level implements ChunkManager, Metadatable{
 		$this->temporalPosition = new Position(0, 0, 0, $this);
 		$this->temporalVector = new Vector3(0, 0, 0);
 		$this->tickRate = 1;
-/** 		$this->weather = new Weather($this, 0);
- *		WeatherManager::registerLevel($this);
- *		$this->weather->setCanCalculate(true);
- *	}
- *
+/** 
  *	public function spawnLightning(Vector3 $pos) : Lightning{
  *		$nbt = new CompoundTag("", [
  *			"Pos" => new ListTag("Pos", [
@@ -422,12 +416,6 @@ class Level implements ChunkManager, Metadatable{
 		return false;
 	}
 
-	/**
-	 * @return Weather
-	 */
-	/** public function getWeather(){
-		return $this->weather;
-	} */
 
 	public function getTickRate() : int{
 		return $this->tickRate;
@@ -592,10 +580,6 @@ class Level implements ChunkManager, Metadatable{
 			$this->server->setDefaultLevel(null);
 		}
 
-		// if($this->weather != null) WeatherManager::unregisterLevel($this);
-
-		// $this->close();
-
 		return true;
 	}
 
@@ -713,8 +697,6 @@ class Level implements ChunkManager, Metadatable{
 		$this->timings->doTick->startTiming();
 
 		$this->checkTime();
-
-		// $this->weather->calcWeather($currentTick);
 
 		$this->unloadChunks();
 

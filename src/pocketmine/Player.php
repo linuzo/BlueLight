@@ -260,8 +260,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	/** @var PermissibleBase */
 	private $perm = null;
 
-	// public $weatherData = [0, 0, 0];
-
 	/** @var Exp */
 	protected $expLevel = 0;
 	protected $exp = 0;
@@ -759,10 +757,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$pk->time = $this->level->getTime();
 			$pk->started = $this->level->stopTime == false;
 			$this->dataPacket($pk);
-			//if($this->server->weatherEnabled){
-			//	$targetLevel->getWeather()->sendWeather($this);
-			//}
-
 		}
 	}
 
@@ -922,8 +916,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->teleport($pos);
 
 		$this->spawnToAll();
-
-		//  $this->level->getWeather()->sendWeather($this);
 
 		if($this->server->expEnabled){
 			$this->updateExperience();
@@ -1925,9 +1917,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		if($this->isCreative()){
 			$this->inventory->sendCreativeContents();
 		}
-		// if($this->server->weatherEnabled){
-		// 	$this->level->getWeather()->sendWeather($this);
-		// }
+        
 		$this->forceMovement = $this->teleportPosition = $this->getPosition();
 
 		$this->server->onPlayerLogin($this);
