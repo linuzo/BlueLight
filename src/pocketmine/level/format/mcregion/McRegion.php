@@ -21,7 +21,6 @@
 
 namespace pocketmine\level\format\mcregion;
 
-use pocketmine\level\format\anvil\Anvil;
 use pocketmine\level\format\Chunk;
 use pocketmine\level\format\LevelProvider;
 use pocketmine\level\format\generic\GenericChunk;
@@ -37,15 +36,7 @@ use pocketmine\utils\MainLogger;
 
 class McRegion extends BaseLevelProvider{
 
-        const REGION_FILE_EXTENSION = "mcr";
-
-	/** @var RegionLoader[] */
-    protected $regions = [];
-
-	/** @var GenericChunk[] */
-	protected $chunks = [];
-    
-	public function nbtSerialize(GenericChunk $chunk) : string{
+	public static function nbtSerialize(GenericChunk $chunk) : string{
 		$nbt = new CompoundTag("Level", []);
 		$nbt->xPos = new IntTag("xPos", $chunk->getX());
 		$nbt->zPos = new IntTag("zPos", $chunk->getZ());
@@ -110,7 +101,7 @@ class McRegion extends BaseLevelProvider{
 		return $writer->writeCompressed(ZLIB_ENCODING_DEFLATE, RegionLoader::$COMPRESSION_LEVEL);
 	}
 
-	public function nbtDeserialize(string $data){
+	public static function nbtDeserialize(string $data, LevelProvider $provider = null){
 		$nbt = new NBT(NBT::BIG_ENDIAN);
 		try{
 			$nbt->readCompressed($data, ZLIB_ENCODING_DEFLATE);
@@ -164,19 +155,21 @@ class McRegion extends BaseLevelProvider{
 			}else{
 				$biomeIds = "";
 			}
-            if(!(isset($chunk->Entities))){
+
+			if(!(isset($chunk->Entities))){
 				$entities = array();
 			}else{
 				$entities = $chunk->Entities->getValue();
 			}
 
-		    if(!(isset($chunk->TileEntities))){
-			     $tile = array();
+			if(!(isset($chunk->TileEntities))){
+				$tile = array();
 			}else{
-			     $tile = $chunk->TileEntities->getValue();
-		}
+				$tile = $chunk->TileEntities->getValue();
+			}
+
 			$result = new GenericChunk(
-				$this,
+				$provider,
 				$chunk["xPos"],
 				$chunk["zPos"],
 				$subChunks,
@@ -195,6 +188,12 @@ class McRegion extends BaseLevelProvider{
 		}
 	}
 
+	/** @var RegionLoader[] */
+	protected $regions = [];
+
+	/** @var GenericChunk[] */
+	protected $chunks = [];
+
 	public static function getProviderName(){
 		return "mcregion";
 	}
@@ -209,7 +208,7 @@ class McRegion extends BaseLevelProvider{
 		if($isValid){
 			$files = glob($path . "/region/*.mc*");
 			foreach($files as $f){
-				if(strpos($f, "." . Anvil::REGION_FILE_EXTENSION) !== false){
+				if(strpos($f, ".mca") !== false){ //Anvil
 					$isValid = false;
 					break;
 				}
@@ -419,7 +418,7 @@ class McRegion extends BaseLevelProvider{
 
 	protected function loadRegion($x, $z){
 		if(!isset($this->regions[$index = Level::chunkHash($x, $z)])){
-			$this->regions[$index] = new RegionLoader($this, $x, $z, static::REGION_FILE_EXTENSION);
+			$this->regions[$index] = new RegionLoader($this, $x, $z);
 		}
 	}
 
