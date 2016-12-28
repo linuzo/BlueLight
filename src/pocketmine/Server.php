@@ -1229,8 +1229,8 @@ class Server{
 	}
     
     public function getCIDBans(){
-+		return $this->banByCID;
-+	}
+		return $this->banByCID;
+	}
 	/**
 	 * @param string $name
 	 */
