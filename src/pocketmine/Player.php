@@ -34,6 +34,7 @@ use pocketmine\entity\Horse;
 use pocketmine\entity\Item as DroppedItem;
 use pocketmine\entity\Living;
 use pocketmine\entity\Projectile;
+use pocketmine\entity\Skin;
 use pocketmine\entity\ThrownExpBottle;
 use pocketmine\entity\ThrownPotion;
 use pocketmine\event\block\SignChangeEvent;
