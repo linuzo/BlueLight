@@ -18,11 +18,11 @@
  * 
  *
 */
-use pocketmine\entity\Skin;
+
 
 namespace pocketmine\network\protocol;
 
-
+use pocketmine\entity\Skin;
 
 #include <rules/DataPacket.h>
 
