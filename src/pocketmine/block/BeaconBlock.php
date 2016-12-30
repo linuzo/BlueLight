@@ -24,10 +24,17 @@
 
 namespace pocketmine\block;
 
-//use pocketmine\inventory\BeaconInventory;
+use pocketmine\inventory\BeaconInventory;
 use pocketmine\item\Item;
+use pocketmine\nbt\NBT;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
 use pocketmine\item\Tool;
+use pocketmine\tile\Beacon;
+use pocketmine\tile\Tile;
 
 class BeaconBlock extends Solid{
 
@@ -37,9 +44,9 @@ class BeaconBlock extends Solid{
 		$this->meta = $meta;
 	}
 
-	/*public function canBeActivated() : bool{
+	public function canBeActivated() : bool{
 		return true;
-	}*/
+	}
 
 	public function getLightLevel(){
 		return 15;
@@ -53,12 +60,58 @@ class BeaconBlock extends Solid{
         return "Beacon Block";
 	}
 
-	/*public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, Player $player = null){
 		if($player instanceof Player){
-			$player->addWindow(new BeaconInventory($this));
+			$t = $this->getLevel()->getTile($this);
+			$beacon = false;
+			if($t instanceof Beacon){
+				$beacon = $t;
+			}else{
+				$nbt = new CompoundTag("", [
+					new StringTag("id", Tile::BEACON),
+					new IntTag("x", $this->x),
+					new IntTag("y", $this->y),
+					new IntTag("z", $this->z)
+				]);
+				$nbt->Items->setTagType(NBT::TAG_Compound);
+				$beacon = Tile::createTile("Beacon", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+			}
+
+			if(isset($beacon->namedtag->Lock) and $beacon->namedtag->Lock instanceof StringTag){
+				if($beacon->namedtag->Lock->getValue() !== $item->getCustomName()){
+					return true;
+				}
+			}
+
+			$player->addWindow($beacon->getInventory());
 		}
 
 		return true;
-	}*/
+	}
+
+	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+		$this->getLevel()->setBlock($block, Block::get(Block::BEACON_BLOCK, 0), true, true);
+		$nbt = new CompoundTag("", [
+			new StringTag("id", Tile::BEACON),
+			new IntTag("x", $block->x),
+			new IntTag("y", $block->y),
+			new IntTag("z", $block->z)
+		]);
+		if($item->hasCustomBlockData()){
+			foreach($item->getCustomBlockData() as $key => $v){
+				$nbt->{$key} = $v;
+			}
+		}
+
+		$chunk = $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4);
+		$beacon = Tile::createTile(Tile::BEACON, $chunk, $nbt);
+		return true;
+	}
+
+	public function onBreak(Item $item){
+		$this->getLevel()->setBlock($this, new Air(), true, true);
+
+		return true;
+	}
 
 }
